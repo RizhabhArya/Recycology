@@ -1,0 +1,36 @@
+.garbage-collector-finder {
+  background-color: var(--light-teal);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.card-title {
+  color: var(--primary-green);
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.card-description {
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.btn-card {
+  background-color: var(--teal);
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.btn-card:hover {
+  background-color: #00897b;
+}
+

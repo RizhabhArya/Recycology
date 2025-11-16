@@ -1,0 +1,30 @@
+.home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.home-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (max-width: 968px) {
+  .home-container {
+    grid-template-columns: 1fr;
+  }
+}
+

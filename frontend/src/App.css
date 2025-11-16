@@ -1,0 +1,19 @@
+.App {
+  min-height: 100vh;
+  background-color: #f0f8f0;
+}
+
+/* Color Variables */
+:root {
+  --primary-green: #4caf50;
+  --light-green: #81c784;
+  --dark-green: #388e3c;
+  --teal: #26a69a;
+  --light-teal: #80cbc4;
+  --white: #ffffff;
+  --text-dark: #333333;
+  --text-light: #666666;
+  --border-radius: 12px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
