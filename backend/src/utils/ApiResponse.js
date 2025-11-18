@@ -56,10 +56,12 @@ export const sendResponse = (res, statusCode, message, data = null) => {
 };
 
 export const sendCreated = (res, message, data = null) => {
-  return ApiResponse.created(message, data);
+  // Use sendResponse to ensure we set status and send JSON
+  return ApiResponse.send(res, 201, message, data);
 };
 
 export const sendSuccess = (res, message, data = null) => {
-  return ApiResponse.success(200, message, data);
+  // Standard 200 success response
+  return ApiResponse.send(res, 200, message, data);
 };
 

@@ -22,6 +22,7 @@ const Register = () => {
       navigate('/dashboard');
     } else {
       setError(result.message);
+      console.error(result.message);
     }
     setLoading(false);
   };

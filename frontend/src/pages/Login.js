@@ -18,9 +18,12 @@ const Login = () => {
 
     const result = await login(email, password);
     if (result.success) {
+      console.log("navigating to dashboard")
       navigate('/dashboard');
     } else {
+      console.log("else part..")
       setError(result.message);
+      console.log(result.message);
     }
     setLoading(false);
   };
