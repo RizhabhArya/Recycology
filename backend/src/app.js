@@ -10,6 +10,8 @@ import ideaRoutes from './routes/ideas.js';
 import collectorRoutes from './routes/collectors.js';
 import campaignRoutes from './routes/campaigns.js';
 import communityRoutes from './routes/community.js';
+import generateRoute from './routes/generate.js';
+import searchRoute from './routes/search.js';
 
 // Load environment variables
 dotenv.config();
@@ -31,6 +33,8 @@ app.use('/api/ideas', ideaRoutes);
 app.use('/api/collectors', collectorRoutes);
 app.use('/api/campaigns', campaignRoutes);
 app.use('/api/community', communityRoutes);
+app.use('/api/generate', generateRoute);
+app.use('/api/search', searchRoute);
 
 // Health check
 app.get('/api/health', (req, res) => {
