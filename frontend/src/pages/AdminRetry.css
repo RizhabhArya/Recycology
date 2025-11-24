@@ -1,0 +1,56 @@
+.admin-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(16,24,32,0.06);
+}
+
+.admin-table thead th {
+  background: #f7fff8;
+  padding: 12px 10px;
+  text-align: left;
+  font-weight: 700;
+  border-bottom: 1px solid #eef7ee;
+}
+
+.admin-table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #f3f6f3;
+  color: #333;
+}
+
+.admin-actions button {
+  background: var(--primary-green);
+  color: #fff;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.admin-pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.message.info { background: #e9f8f0; padding: 10px; border-radius: 8px; }
+.message.error { background: #fff1f0; padding: 10px; border-radius: 8px; }
+.message.success { background: #f0fff6; padding: 10px; border-radius: 8px; }

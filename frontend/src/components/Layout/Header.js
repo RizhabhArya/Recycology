@@ -16,7 +16,7 @@ const Header = () => {
     <header className="header">
       <div className="header-container">
         <Link to="/" className="logo">
-          <h1>Upcycle AI Hub</h1>
+          <h1>Recycology</h1>
           <p>Your AI-powered guide to a sustainable lifestyle</p>
         </Link>
         <nav className="nav">
@@ -25,6 +25,14 @@ const Header = () => {
               <Link to="/dashboard" className="nav-link">
                 Dashboard
               </Link>
+              <Link to="/create-post" className="nav-link">
+                Create Post
+              </Link>
+              {user?.role === 'admin' && (
+                <Link to="/admin/retry" className="nav-link">
+                  logs and errors
+                </Link>
+              )}
               <span className="user-name">{user?.name}</span>
               <button onClick={handleLogout} className="btn-logout">
                 Logout

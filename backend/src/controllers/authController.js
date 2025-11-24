@@ -32,6 +32,7 @@ export const register = async (req, res, next) => {
       name: user.name,
       email: user.email,
       avatar: user.avatar,
+      role: user.role || 'user',
     };
 
     sendCreated(res, 'User registered successfully', {
@@ -71,6 +72,7 @@ export const login = async (req, res, next) => {
       name: user.name,
       email: user.email,
       avatar: user.avatar,
+      role: user.role || 'user',
     };
 
     sendSuccess(res, 'Login successful', {

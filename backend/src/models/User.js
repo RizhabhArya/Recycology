@@ -29,10 +29,22 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    // Role: 'user' or 'admin'
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+    },
     savedIdeas: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ProductIdea',
+      },
+    ],
+    savedProjects: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
       },
     ],
     myPosts: [

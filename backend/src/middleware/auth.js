@@ -38,3 +38,24 @@ export const protect = async (req, res, next) => {
   }
 };
 
+/**
+ * Require admin user. Uses env var ADMIN_EMAIL or ADMIN_USERS (comma-separated)
+ * Assumes `protect` ran earlier and set `req.user`.
+ */
+export const requireAdmin = async (req, res, next) => {
+  try {
+    if (!req.user) {
+      throw new UnauthorizedError('Not authorized');
+    }
+
+    // Role-based check: user.role must be 'admin'
+    if (!req.user.role || req.user.role !== 'admin') {
+      throw new UnauthorizedError('Admin privileges required');
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+

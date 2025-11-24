@@ -24,30 +24,70 @@ export const getCommunityPosts = async (req, res, next) => {
  */
 export const createPost = async (req, res, next) => {
   try {
-    const { title, description, material } = req.body;
+    const {
+      projectName,
+      title,
+      description,
+      materials,
+      steps,
+      inputPrompt,
+      videoUrl,
+    } = req.body;
     const userId = req.user._id;
 
-    if (!title || !description || !material) {
-      throw new BadRequestError('Title, description, and material are required');
+    if (!projectName || !description) {
+      throw new BadRequestError('Project name and description are required');
+    }
+
+    // Normalize materials and steps when sent as JSON strings (multipart/form-data)
+    let parsedMaterials = [];
+    if (Array.isArray(materials)) {
+      parsedMaterials = materials;
+    } else if (typeof materials === 'string' && materials.trim()) {
+      try {
+        const m = JSON.parse(materials);
+        if (Array.isArray(m)) parsedMaterials = m;
+      } catch (e) {
+        // Fallback: split by newlines or commas
+        parsedMaterials = materials.split(/\r?\n|,/).map((s) => s.trim()).filter(Boolean).map((name) => ({ name }));
+      }
+    }
+
+    let parsedSteps = [];
+    if (Array.isArray(steps)) {
+      parsedSteps = steps;
+    } else if (typeof steps === 'string' && steps.trim()) {
+      try {
+        const s = JSON.parse(steps);
+        if (Array.isArray(s)) parsedSteps = s;
+      } catch (e) {
+        // Fallback: treat each non-empty line as a simple step object
+        parsedSteps = steps.split(/\r?\n/).map((line) => line.trim()).filter(Boolean).map((t) => ({ title: t }));
+      }
+    }
+
+    // Determine image or video URL from uploaded file (if any)
+    let imageUrl = null;
+    let finalVideoUrl = videoUrl || null;
+    // Our Cloudinary storage returns `url` and `public_id` in req.file
+    if (req.file && (req.file.url || req.file.path)) {
+      const uploadedUrl = req.file.url || req.file.path;
+      const mime = req.file.mimetype || '';
+      if (mime.startsWith('image')) imageUrl = uploadedUrl;
+      else finalVideoUrl = uploadedUrl;
     }
 
     const postData = {
-      title,
+      projectName,
+      title: title || projectName,
       description,
-      material,
+      materials: parsedMaterials,
+      steps: parsedSteps,
+      inputPrompt: inputPrompt || '',
+      videoUrl: finalVideoUrl,
+      imageUrl: imageUrl,
       userId,
     };
-
-    // Add image/video URLs if uploaded
-    if (req.file) {
-      // CloudinaryStorage stores the URL in req.file.path
-      const fileUrl = req.file.path || req.file.secure_url;
-      if (req.file.mimetype.startsWith('video/')) {
-        postData.videoUrl = fileUrl;
-      } else {
-        postData.imageUrl = fileUrl;
-      }
-    }
 
     const post = await CommunityPost.create(postData);
 
@@ -115,6 +155,22 @@ export const toggleLike = async (req, res, next) => {
     sendSuccess(res, isLiked ? 'Post unliked' : 'Post liked', {
       post: populatedPost,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Get a single community post by id
+ */
+export const getCommunityPostById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const post = await CommunityPost.findById(id).populate('userId', 'name email avatar');
+    if (!post) {
+      return sendSuccess(res, 'Post not found', { post: null });
+    }
+    sendSuccess(res, 'Post retrieved', { post });
   } catch (error) {
     next(error);
   }

@@ -19,23 +19,39 @@ export function extractJson(text) {
 
   // --- Automatic Fix Pass (for common LLM mistakes) ---
   cleaned = cleaned
+    // normalize different quote characters
+    .replace(/[“”«»„”]/g, '"')
+    // convert single-quoted strings to double-quoted (simple cases)
+    .replace(/'([^']*)'/g, '"$1"')
     // remove trailing commas before ] or }
     .replace(/,(\s*[}\]])/g, "$1")
     // remove double commas
     .replace(/,,+/g, ",")
-    // remove stray line breaks inside quotes (if any remain)
+    // remove stray carriage returns
     .replace(/\r/g, "");
+
+  // Quote unquoted object keys: { key: or , key:  => { "key":
+  // This is a best-effort regex and avoids touching already-quoted keys.
+  cleaned = cleaned.replace(/([\{,]\s*)([A-Za-z0-9_\- ]+?)\s*:/g, (m, p1, p2) => {
+    // If key already contains a quote, skip
+    if (/^\s*\"/.test(p2) || /^\s*\'/.test(p2)) return m;
+    // Trim and escape double quotes inside key
+    const key = p2.trim().replace(/\"/g, '\\\"');
+    return `${p1}\"${key}\":`;
+  });
 
   try {
     return JSON.parse(cleaned);
   } catch (err) {
     console.warn("⚠ JSON Parse failed. Applying final cleanup…");
 
-    // Last-chance fix: sometimes quotes break
+    // Last-chance fixes
     cleaned = cleaned
       .replace(/"\s+"/g, '" "') // normalize weird spacing
-      .replace(/:\s*([^",}\]]+)\s*(,|\})/g, ':"$1"$2'); // wrap bare words in quotes
+      // wrap bare words (values) in quotes when safe: : word, or : word}
+      .replace(/:\s*([^\",\}\]\n]+)\s*(,|\}|\])/g, ':"$1"$2');
 
-    return JSON.parse(cleaned); // may still throw — but 98% success rate
+    // Try parsing again
+    return JSON.parse(cleaned);
   }
 }

@@ -1,5 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
+// Load environment variables as early as possible so other modules (e.g., cloudinary)
+// that read process.env during import time get the correct values.
+dotenv.config();
 import cors from 'cors';
 import { connectDB } from './config/database.js';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
@@ -11,10 +14,10 @@ import collectorRoutes from './routes/collectors.js';
 import campaignRoutes from './routes/campaigns.js';
 import communityRoutes from './routes/community.js';
 import generateRoute from './routes/generate.js';
+import generateStreamRoute from './routes/generateStream.js';
 import searchRoute from './routes/search.js';
+import projectsRoutes from './routes/projects.js';
 
-// Load environment variables
-dotenv.config();
 
 // Connect to database
 connectDB();
@@ -34,7 +37,9 @@ app.use('/api/collectors', collectorRoutes);
 app.use('/api/campaigns', campaignRoutes);
 app.use('/api/community', communityRoutes);
 app.use('/api/generate', generateRoute);
+app.use('/api/generate', generateStreamRoute); // SSE streaming endpoint
 app.use('/api/search', searchRoute);
+app.use('/api/projects', projectsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
