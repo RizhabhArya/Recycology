@@ -159,3 +159,10 @@
   .create-preview { display: none; }
   .create-post-form { max-width: 100%; }
 }
+
+.btn{
+  border: 1px solid green;
+
+  height: 2rem;
+  width: 8rem;
+}

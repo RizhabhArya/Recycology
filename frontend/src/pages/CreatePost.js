@@ -239,7 +239,7 @@ const CreatePost = () => {
                 <button type="button" onClick={() => removeMaterial(idx)}>Remove</button>
               </div>
             ))}
-            <button type="button" onClick={addMaterial}>Add material</button>
+            <button className="btn" type="button" onClick={addMaterial}>Add material</button>
 
             <label>Steps</label>
             {steps.map((s, idx) => (
@@ -248,11 +248,11 @@ const CreatePost = () => {
                 <input placeholder="Action" value={s.action} onChange={(e) => handleStepChange(idx, 'action', e.target.value)} />
                 <textarea placeholder="Details (optional)" value={s.details} onChange={(e) => handleStepChange(idx, 'details', e.target.value)} />
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <button type="button" onClick={() => removeStep(idx)}>Remove step</button>
+                  <button  type="button" onClick={() => removeStep(idx)}>Remove step</button>
                 </div>
               </div>
             ))}
-            <button type="button" onClick={addStep}>Add step</button>
+            <button className="btn" type="button" onClick={addStep}>Add step</button>
 
             <div className="create-actions" style={{ marginTop: 12 }}>
               <button className="btn-generate" type="submit" disabled={submitting}>{submitting ? 'Posting...' : 'Post to Community'}</button>
