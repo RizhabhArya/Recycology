@@ -239,7 +239,7 @@ const CreatePost = () => {
                 <button type="button" onClick={() => removeMaterial(idx)}>Remove</button>
               </div>
             ))}
-            <button className="btn" type="button" onClick={addMaterial}>Add material</button>
+            <button className="btn" type="button" onClick={addMaterial}>Add material..</button>
 
             <label>Steps</label>
             {steps.map((s, idx) => (
